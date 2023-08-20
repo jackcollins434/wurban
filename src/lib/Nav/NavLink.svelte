@@ -22,9 +22,9 @@
     left: 0;
     bottom: -2px;
     width: 0;
-    height: 2px; /* Adjust the border height as needed */
-    background-color: white; /* Change this to your desired border color */
-    transition: width 0.25s ease; /* Adjust the transition timing as needed */
+    height: 2px;
+    background-color: white;
+    transition: width 0.25s ease;
     width: 0;
   }
   a:hover::before,

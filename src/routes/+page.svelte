@@ -3,7 +3,7 @@
   import Navbar from "$lib/Nav/Navbar.svelte";
 
   const characters = {
-    letterRows: ["qwertyuiop", "asdfghjkl", "zxcvbnm"],
+    letterRows: ["qwertyuiop", "asdfghjkl", "<zxcvbnm>"],
   };
 </script>
 
@@ -13,7 +13,7 @@
   {#each characters["letterRows"] as letterRow}
     <div class="flex gap-1.5 row-">
       {#each letterRow as letter}
-        <Character character={letter} />
+        <Character intent="correct">{letter.toUpperCase()}</Character>
       {/each}
     </div>
   {/each}
