@@ -2,7 +2,7 @@
   import Box from "$lib/Box.svelte";
   import Character from "$lib/Character.svelte";
   import Navbar from "$lib/Nav/Navbar.svelte";
-  import { ArrowRightSquare, Delete } from "lucide-svelte";
+  import { ArrowRightSquare, Delete, Keyboard } from "lucide-svelte";
   import { onMount } from "svelte";
 
   const characters = {
@@ -32,11 +32,31 @@
   }
 
   function submitWord() {
-    submittedWords = [...submittedWords, currentUserWord];
-    wordPosition++;
+    if (currentUserWord.length === word.length) {
+      submittedWords = [...submittedWords, currentUserWord];
+      wordPosition++;
 
-    currentUserWord = [];
+      currentUserWord = [];
+    }
   }
+
+  function handleKeydown(e: KeyboardEvent) {
+    if (e.key.match(/^[a-zA-Z]$/) && !e.metaKey && !e.ctrlKey) {
+      handleCharacterEntry(e.key);
+    }
+
+    if (e.key === "Enter") {
+      submitWord();
+    }
+
+    if (e.key === "Backspace") {
+      handleCharacterDeletion();
+    }
+  }
+
+  onMount(() => {
+    document.addEventListener("keydown", handleKeydown);
+  });
 </script>
 
 <Navbar />
