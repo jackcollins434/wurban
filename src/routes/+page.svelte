@@ -26,6 +26,10 @@
     currentUserWord = [...currentUserWord, letter.toUpperCase()];
   }
 
+  function handleCharacterDeletion(letter: string) {
+    currentUserWord = currentUserWord.slice(0, currentUserWord.length - 1);
+  }
+
   function submitWord() {
     submittedWords = [...submittedWords, currentUserWord];
     wordPosition++;
@@ -59,7 +63,7 @@
         {#if letter === ">"}
           <Character on:click={submitWord}><ArrowRightSquare /></Character>
         {:else if letter === "<"}
-          <Character><Delete /></Character>
+          <Character on:click={handleCharacterDeletion}><Delete /></Character>
         {:else}
           <Character on:click={() => handleCharacterEntry(letter)}
             >{letter.toUpperCase()}</Character
