@@ -8,6 +8,9 @@
       variants: {
         intent: {
           unused: "border-gray-300",
+          correct: "border-green-600 bg-green-600 text-white",
+          exists: "border-yellow-500 bg-yellow-500 text-white",
+          wrong: "border-red-700 bg-red-700 text-white",
         },
       },
     }

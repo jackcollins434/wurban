@@ -58,8 +58,6 @@
     submittedWords = [...submittedWords, submittedWord];
     wordPosition++;
 
-    console.log(submittedWords);
-
     currentUserWord = [];
   }
 
@@ -90,6 +88,7 @@
       {#each letterRange as letterPosition}
         {#if submittedWords[wordRangePosition]}
           <Box
+            intent={submittedWords[wordRangePosition][letterPosition]["status"]}
             >{submittedWords[wordRangePosition][letterPosition]["letter"]}</Box
           >
         {:else if wordRangePosition === wordPosition && currentUserWord[letterPosition] !== undefined}
