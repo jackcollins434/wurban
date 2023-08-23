@@ -2,7 +2,7 @@
   import Box from "$lib/Box.svelte";
   import Character from "$lib/Character.svelte";
   import Navbar from "$lib/Nav/Navbar.svelte";
-  import { ArrowRightSquare, Delete, Keyboard } from "lucide-svelte";
+  import { ArrowRightSquare, Delete } from "lucide-svelte";
   import { onMount } from "svelte";
 
   const characters = {
