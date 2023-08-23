@@ -5,11 +5,16 @@
   import { ArrowRightSquare, Delete } from "lucide-svelte";
   import { onMount } from "svelte";
 
+  type SubmittedLetter = {
+    letter: string;
+    status: "correct" | "exists" | "wrong";
+  };
+
   const characters = {
     letterRows: ["qwertyuiop", "asdfghjkl", "<zxcvbnm>"],
   };
 
-  const word = "tears";
+  const targetWord = "tears";
 
   let wordRange = [...Array(6).keys()];
   let letterRange = [...Array(5).keys()];
@@ -17,10 +22,10 @@
   let currentUserWord: Array<string> = [];
   let wordPosition = 0;
 
-  let submittedWords: Array<Array<string>> = [];
+  let submittedWords: Array<Array<SubmittedLetter>> = [];
 
   function handleCharacterEntry(letter: string) {
-    if (currentUserWord.length >= word.length) {
+    if (currentUserWord.length >= targetWord.length) {
       return;
     }
 
@@ -32,12 +37,30 @@
   }
 
   function submitWord() {
-    if (currentUserWord.length === word.length) {
-      submittedWords = [...submittedWords, currentUserWord];
-      wordPosition++;
-
-      currentUserWord = [];
+    if (currentUserWord.length !== targetWord.length) {
+      return;
     }
+
+    const targetWordPieces = [...targetWord.toLowerCase()];
+    const submittedWord: Array<SubmittedLetter> = [];
+
+    currentUserWord.forEach((letter, index) => {
+      letter = letter.toLowerCase();
+      if (targetWordPieces[index] === letter) {
+        submittedWord.push({ letter: letter.toUpperCase(), status: "correct" });
+      } else if (targetWordPieces.includes(letter)) {
+        submittedWord.push({ letter: letter.toUpperCase(), status: "exists" });
+      } else {
+        submittedWord.push({ letter: letter.toUpperCase(), status: "wrong" });
+      }
+    });
+
+    submittedWords = [...submittedWords, submittedWord];
+    wordPosition++;
+
+    console.log(submittedWords);
+
+    currentUserWord = [];
   }
 
   function handleKeydown(e: KeyboardEvent) {
@@ -66,7 +89,9 @@
     <div class="flex gap-1.5">
       {#each letterRange as letterPosition}
         {#if submittedWords[wordRangePosition]}
-          <Box>{submittedWords[wordRangePosition][letterPosition]}</Box>
+          <Box
+            >{submittedWords[wordRangePosition][letterPosition]["letter"]}</Box
+          >
         {:else if wordRangePosition === wordPosition && currentUserWord[letterPosition] !== undefined}
           <Box>{currentUserWord[letterPosition]}</Box>
         {:else}

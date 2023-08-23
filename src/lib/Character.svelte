@@ -1,6 +1,6 @@
 <script lang="ts">
   import { cva, type VariantProps } from "class-variance-authority";
-  import type { HTMLAttributes, HTMLButtonAttributes } from "svelte/elements";
+  import type { HTMLButtonAttributes } from "svelte/elements";
 
   const character = cva(
     "shadow-lg flex justify-center border px-2 py-4 w-8 md:w-9 text-lg rounded-sm font-bold relative cursor-pointer touch-manipulation",
