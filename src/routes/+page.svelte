@@ -3,6 +3,7 @@
   import Character from "$lib/Character.svelte";
   import Navbar from "$lib/Nav/Navbar.svelte";
   import { ArrowRightSquare, Delete } from "lucide-svelte";
+  import { onMount } from "svelte";
 
   const characters = {
     letterRows: ["qwertyuiop", "asdfghjkl", "<zxcvbnm>"],
@@ -26,7 +27,7 @@
     currentUserWord = [...currentUserWord, letter.toUpperCase()];
   }
 
-  function handleCharacterDeletion(letter: string) {
+  function handleCharacterDeletion() {
     currentUserWord = currentUserWord.slice(0, currentUserWord.length - 1);
   }
 
@@ -63,7 +64,9 @@
         {#if letter === ">"}
           <Character on:click={submitWord}><ArrowRightSquare /></Character>
         {:else if letter === "<"}
-          <Character on:click={handleCharacterDeletion}><Delete /></Character>
+          <Character on:click={() => handleCharacterDeletion()}
+            ><Delete /></Character
+          >
         {:else}
           <Character on:click={() => handleCharacterEntry(letter)}
             >{letter.toUpperCase()}</Character

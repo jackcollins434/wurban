@@ -3,7 +3,7 @@
   import type { HTMLAttributes } from "svelte/elements";
 
   const box = cva(
-    "h-12 w-12 relative p-2 flex justify-center text-3xl font-bold border shadow-md text-center",
+    "h-12 w-12 relative p-2 flex justify-center items-center relative text-3xl font-bold border shadow-md text-center",
     {
       variants: {
         intent: {
