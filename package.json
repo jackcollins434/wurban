@@ -24,10 +24,12 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"bits-ui": "^0.0.33",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.0.0",
 		"lucide-svelte": "^0.268.0",
 		"tailwind-merge": "^1.14.0",
+		"tailwind-variants": "^0.1.13",
 		"tailwindcss-animate": "^1.0.6"
 	}
 }

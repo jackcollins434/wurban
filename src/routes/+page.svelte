@@ -4,6 +4,7 @@
   import Navbar from "$lib/Nav/Navbar.svelte";
   import { ArrowRightSquare, Delete } from "lucide-svelte";
   import { onMount } from "svelte";
+  import * as Dialog from "$components/ui/dialog";
 
   type SubmittedLetter = {
     letter: string;
@@ -14,7 +15,9 @@
     letterRows: ["qwertyuiop", "asdfghjkl", "<zxcvbnm>"],
   };
 
-  const targetWord = "tears";
+  const targetWord = "jabol";
+  const definition =
+    "Jabol means to jerk off your balls. Jabol was derived from the Filipino word “Jakol” which means to jerk off.";
 
   let wordRange = [...Array(6).keys()];
   let letterRange = [...Array(5).keys()];
@@ -25,9 +28,10 @@
     [letter: string]: "correct" | "unused" | "wrong" | "exists";
   } = {};
 
-  let submittedWords: Array<Array<SubmittedLetter>> = [];
+  let postGameMessageOpen = false;
+  let gameStatus = "playing";
 
-  $: console.log(attemptedLetters);
+  let submittedWords: Array<Array<SubmittedLetter>> = [];
 
   function handleCharacterEntry(letter: string) {
     if (currentUserWord.length >= targetWord.length) {
@@ -49,11 +53,14 @@
     const targetWordPieces = [...targetWord.toLowerCase()];
     const submittedWord: Array<SubmittedLetter> = [];
 
+    let lettersCorrect = 0;
+
     currentUserWord.forEach((letter, index) => {
       letter = letter.toLowerCase();
       if (targetWordPieces[index] === letter) {
         submittedWord.push({ letter: letter.toUpperCase(), status: "correct" });
         attemptedLetters[letter] = "correct";
+        lettersCorrect++;
       } else if (targetWordPieces.includes(letter)) {
         submittedWord.push({ letter: letter.toUpperCase(), status: "exists" });
         attemptedLetters[letter] = "exists";
@@ -64,9 +71,19 @@
     });
 
     submittedWords = [...submittedWords, submittedWord];
-    wordPosition++;
 
     currentUserWord = [];
+
+    wordPosition++;
+
+    if (lettersCorrect === targetWord.length) {
+      gameStatus = "win";
+      return (postGameMessageOpen = true);
+    }
+    if (wordPosition + 1 > wordRange.length) {
+      gameStatus = "loss";
+      return (postGameMessageOpen = true);
+    }
   }
 
   function handleKeydown(e: KeyboardEvent) {
@@ -89,6 +106,29 @@
 </script>
 
 <Navbar />
+
+<Dialog.Root open={postGameMessageOpen}>
+  <Dialog.Content>
+    <Dialog.Header>
+      <Dialog.Title>
+        {#if gameStatus === "win"}
+          That Was Awesome <span class="text-xl">&#x1F60D;</span>
+        {:else}
+          Better Luck Next Time <span class="text-2xl">&#x1F614;</span>
+        {/if}
+      </Dialog.Title>
+      <Dialog.Description>
+        {#if gameStatus === "win"}
+          You got the wUrban in {wordPosition} attempts!
+        {:else}
+          Maybe try again tomorrow!
+        {/if}
+        <hr />
+        {definition}
+      </Dialog.Description>
+    </Dialog.Header>
+  </Dialog.Content>
+</Dialog.Root>
 
 <div class="grid grid-cols-1 gap-1.5 mt-6 place-items-center">
   {#each wordRange as wordRangePosition}
