@@ -9,8 +9,8 @@
         intent: {
           unused: "border-gray-300 bg-gray-300 text-black",
           correct: "border-green-600 bg-green-600 text-white",
-          incorrect: "border-gray-800 bg-gray-800 text-white",
-          wrongPosition: "border-yellow-500 bg-yellow-500 text-white",
+          wrong: "border-gray-800 bg-gray-800 text-white",
+          exists: "border-yellow-500 bg-yellow-500 text-white",
         },
       },
     }

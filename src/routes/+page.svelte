@@ -21,8 +21,13 @@
 
   let currentUserWord: Array<string> = [];
   let wordPosition = 0;
+  let attemptedLetters: {
+    [letter: string]: "correct" | "unused" | "wrong" | "exists";
+  } = {};
 
   let submittedWords: Array<Array<SubmittedLetter>> = [];
+
+  $: console.log(attemptedLetters);
 
   function handleCharacterEntry(letter: string) {
     if (currentUserWord.length >= targetWord.length) {
@@ -48,10 +53,13 @@
       letter = letter.toLowerCase();
       if (targetWordPieces[index] === letter) {
         submittedWord.push({ letter: letter.toUpperCase(), status: "correct" });
+        attemptedLetters[letter] = "correct";
       } else if (targetWordPieces.includes(letter)) {
         submittedWord.push({ letter: letter.toUpperCase(), status: "exists" });
+        attemptedLetters[letter] = "exists";
       } else {
         submittedWord.push({ letter: letter.toUpperCase(), status: "wrong" });
+        attemptedLetters[letter] = "wrong";
       }
     });
 
@@ -112,7 +120,11 @@
             ><Delete /></Character
           >
         {:else}
-          <Character on:click={() => handleCharacterEntry(letter)}
+          <Character
+            intent={attemptedLetters[letter]
+              ? attemptedLetters[letter]
+              : "unused"}
+            on:click={() => handleCharacterEntry(letter)}
             >{letter.toUpperCase()}</Character
           >
         {/if}
